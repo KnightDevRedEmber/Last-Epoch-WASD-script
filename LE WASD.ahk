@@ -142,6 +142,7 @@ move(toSpace := 0)
 				Mousemove mX, mY, 0
 				Mousemove mX, mY, 2
 				Mousemove mX, mY, 0
+				Sleep 1
 				Click
 				
 				if (toSpace == 2)
