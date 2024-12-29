@@ -28,8 +28,12 @@ Space::
 	{
 		InputLevel := 0
 		Send(" ")
-		walkWait := 1
+		;walkWait := 1
 		InputLevel := 1
+	}
+	else
+	{
+		move(2)
 	}
 }
 
@@ -44,6 +48,11 @@ F::{
 
 Loop
 {
+	move
+}
+
+move(toSpace := 0)
+{
 	if WinWaitActive("Last Epoch")
 	{
 		monX := A_ScreenWidth
@@ -54,17 +63,14 @@ Loop
 		Hotkey "E", "Off"
 		Hotkey "R", "Off"
 		Hotkey "F", "Off"
-		if toRun == 0 && !GetKeyState("Q") && !GetKeyState("E") && !GetKeyState("R") && !GetKeyState("F") && !GetKeyState("RButton")
+		
+		if (GetKeyState("Space", "P"))
 		{
-			if (GetKeyState("Space", "P"))
-			{
-				toSpace := 2
-			}
-			
-			if (mX != 0)
-			{
-				Sleep 80
-			}
+			toSpace := 2
+		}
+		
+		if toRun == 0
+		{
 			mX := 0
 			mY := 0
 			
@@ -74,19 +80,19 @@ Loop
 				;1080
 				;830
 				mX := monX/2
-				mY := monY/2-(250*monMult)
+				mY := monY/2-(310*monMult) ;(250*monMult)
 			}
 			else if GetKeyState("S")
 			{
 				;1250
 				mX := monX/2
-				mY := monY/2 +(172*monMult)
+				mY := monY/2+(215*monMult) ;+(172*monMult)
 			}
 			if GetKeyState("A")
 			{
 				;1790-170
 				;964
-				mX := monX/2-(300*monMult)
+				mX := monX/2-(325*monMult) ;-(300*monMult)
 				mY := monY/2-(116*monMult)
 				
 				if GetKeyState("W")
@@ -102,7 +108,7 @@ Loop
 			{
 				;2050+170
 				;964
-				mX := monX/2+(300*monMult)
+				mX := monX/2+(325*monMult) ;+(300*monMult)
 				mY := monY/2-(116*monMult)
 				
 				if GetKeyState("W")
@@ -115,7 +121,7 @@ Loop
 				}
 			}
 			
-			if (mX != 0)
+			if (mX != 0) && !GetKeyState("Q") && !GetKeyState("E") && !GetKeyState("R") && !GetKeyState("F") && !GetKeyState("RButton")
 			{
 				Send("{Q Up}")
 				Hotkey "Q", "On"
@@ -163,12 +169,19 @@ Loop
 				Hotkey "F", "Off"
 			}
 			
-			if (toSpace > 0)
+			;if (toSpace > 0)
+			;{
+			;	InputLevel := 0
+			;	Send(" ")
+			;	InputLevel := 1
+			;	toSpace := 0
+			;}
+			
+			toSpace := 0
+			
+			if (mX != 0)
 			{
-				InputLevel := 0
-				Send(" ")
-				InputLevel := 1
-				toSpace := 0
+				Sleep 26
 			}
 		}
 	}
