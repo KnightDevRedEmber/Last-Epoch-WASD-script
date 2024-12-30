@@ -55,134 +55,145 @@ move(toSpace := 0)
 {
 	if WinWaitActive("Last Epoch")
 	{
-		monX := A_ScreenWidth
-		monY := A_ScreenHeight
-		monMult := A_ScreenHeight / 2160
-	
-		Hotkey "Q", "Off"
-		Hotkey "E", "Off"
-		Hotkey "R", "Off"
-		Hotkey "F", "Off"
-		
-		if (GetKeyState("Space", "P"))
+		if GetKeyState("Q") || GetKeyState("E") || GetKeyState("R") || GetKeyState("F") || GetKeyState("RButton")
 		{
-			toSpace := 2
+			Sleep 10
 		}
-		
-		if toRun == 0
+		else
 		{
-			mX := 0
-			mY := 0
+			monX := A_ScreenWidth
+			monY := A_ScreenHeight
+			monMult := A_ScreenHeight / 2160
+		
+			Hotkey "Q", "Off"
+			Hotkey "E", "Off"
+			Hotkey "R", "Off"
+			Hotkey "F", "Off"
 			
-			if GetKeyState("W")
+			if (GetKeyState("Space", "P"))
 			{
-				;1920
-				;1080
-				;830
-				mX := monX/2
-				mY := monY/2-(310*monMult) ;(250*monMult)
+				toSpace := 2
 			}
-			else if GetKeyState("S")
+			
+			if toRun == 0
 			{
-				;1250
-				mX := monX/2
-				mY := monY/2+(215*monMult) ;+(172*monMult)
-			}
-			if GetKeyState("A")
-			{
-				;1790-170
-				;964
-				mX := monX/2-(325*monMult) ;-(300*monMult)
-				mY := monY/2-(116*monMult)
+				mX := 0
+				mY := 0
 				
 				if GetKeyState("W")
 				{
-					mY -= 180*monMult
+					;1920
+					;1080
+					;830
+					mX := monX/2
+					mY := monY/2-(340*monMult) ;(310*monMult) ;(250*monMult)
 				}
 				else if GetKeyState("S")
 				{
-					mY += 180*monMult
+					;1250
+					mX := monX/2
+					mY := monY/2+(235*monMult) ;(215*monMult) ;+(172*monMult)
 				}
-			}
-			else if GetKeyState("D")
-			{
-				;2050+170
-				;964
-				mX := monX/2+(325*monMult) ;+(300*monMult)
-				mY := monY/2-(116*monMult)
+				if GetKeyState("A")
+				{
+					;1790-170
+					;964
+					mX := monX/2-(355*monMult) ;(325*monMult) ;-(300*monMult)
+					mY := monY/2-(116*monMult)
+					
+					if GetKeyState("W")
+					{
+						mY -= 180*monMult
+					}
+					else if GetKeyState("S")
+					{
+						mY += 180*monMult
+					}
+				}
+				else if GetKeyState("D")
+				{
+					;2050+170
+					;964
+					mX := monX/2+(355*monMult) ;(325*monMult) ;+(300*monMult)
+					mY := monY/2-(116*monMult)
+					
+					if GetKeyState("W")
+					{
+						mY -= 180*monMult
+					}
+					else if GetKeyState("S")
+					{
+						mY += 180*monMult
+					}
+				}
 				
-				if GetKeyState("W")
+				if (mX != 0) && !GetKeyState("Q") && !GetKeyState("E") && !GetKeyState("R") && !GetKeyState("F") && !GetKeyState("RButton")
 				{
-					mY -= 180*monMult
-				}
-				else if GetKeyState("S")
-				{
-					mY += 180*monMult
-				}
-			}
-			
-			if (mX != 0) && !GetKeyState("Q") && !GetKeyState("E") && !GetKeyState("R") && !GetKeyState("F") && !GetKeyState("RButton")
-			{
-				Send("{Q Up}")
-				Hotkey "Q", "On"
-				Send("{E Up}")
-				Hotkey "E", "On"
-				Send("{R Up}")
-				Hotkey "R", "On"
-				Send("{F Up}")
-				Hotkey "F", "On"
-				if (GetKeyState("Space", "P"))
-				{
-					toSpace := 2
+					Send("{Q Up}")
+					Hotkey "Q", "On"
+					Send("{E Up}")
+					Hotkey "E", "On"
+					Send("{R Up}")
+					Hotkey "R", "On"
+					Send("{F Up}")
+					Hotkey "F", "On"
+					if (GetKeyState("Space", "P"))
+					{
+						toSpace := 2
+					}
+					
+					BlockInput "MouseMove"
+					MouseGetPos(&x, &y)
+					Mousemove mX, mY, 1
+					Mousemove mX, mY, 0
+					Mousemove mX, mY, 2
+					Mousemove mX, mY, 0
+					Sleep 1
+					if !GetKeyState("RButton")
+					{
+						Click
+					}
+					Sleep 1
+					
+					if (toSpace == 2)
+					{
+						Sleep 1
+						toSpace := 1
+						InputLevel := 0
+						Send(" ")
+						InputLevel := 1
+						Sleep 1
+						Sleep 1
+						Sleep 1
+						Sleep 1
+					}
+					Sleep 1
+					Sleep 1
+					Mousemove x, y, 1
+					Mousemove x, y, 2
+					Mousemove x, y, 1
+					Mousemove x, y, 2
+					BlockInput "MouseMoveOff"
+					Hotkey "Q", "Off"
+					Hotkey "E", "Off"
+					Hotkey "R", "Off"
+					Hotkey "F", "Off"
 				}
 				
-				BlockInput "MouseMove"
-				MouseGetPos(&x, &y)
-				Mousemove mX, mY, 1
-				Mousemove mX, mY, 0
-				Mousemove mX, mY, 2
-				Mousemove mX, mY, 0
-				Sleep 1
-				Click
+				;if (toSpace > 0)
+				;{
+				;	InputLevel := 0
+				;	Send(" ")
+				;	InputLevel := 1
+				;	toSpace := 0
+				;}
 				
-				if (toSpace == 2)
+				toSpace := 0
+				
+				if (mX != 0)
 				{
-					Sleep 1
-					toSpace := 1
-					InputLevel := 0
-					Send(" ")
-					InputLevel := 1
-					Sleep 1
-					Sleep 1
-					Sleep 1
-					Sleep 1
+					Sleep 18
 				}
-				Sleep 1
-				Sleep 1
-				Mousemove x, y, 1
-				Mousemove x, y, 2
-				Mousemove x, y, 1
-				Mousemove x, y, 2
-				BlockInput "MouseMoveOff"
-				Hotkey "Q", "Off"
-				Hotkey "E", "Off"
-				Hotkey "R", "Off"
-				Hotkey "F", "Off"
-			}
-			
-			;if (toSpace > 0)
-			;{
-			;	InputLevel := 0
-			;	Send(" ")
-			;	InputLevel := 1
-			;	toSpace := 0
-			;}
-			
-			toSpace := 0
-			
-			if (mX != 0)
-			{
-				Sleep 26
 			}
 		}
 	}
